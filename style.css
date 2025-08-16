@@ -53,66 +53,70 @@ body { -webkit-font-smoothing: antialiased; }
    - Images recadrées, composant ne bouge pas
    - Poignée rendue au-dessus, jamais rognée
 */
-.compare-wrap{
-  --cmp-ar: 16/9;         /* surchargé via style inline par app.js si besoin */
-  --cmp-h: auto;          /* hauteur fixe px si définie */
-  --reveal: 50%;          /* position du séparateur */
-  position: relative;
-  border-radius: 1rem;
-}
+/* ===== Before / After — fixe, indépendant, mobile-first ===== */
 
-/* zone d’image, clip des images */
+.compare-wrap{ border-radius:1rem; }
+
 .compare{
-  position: relative;
-  width: 100%;
-  aspect-ratio: var(--cmp-ar);
-  height: var(--cmp-h);
-  border-radius: inherit;
-  overflow: hidden;       /* coupe les images aux coins arrondis */
-  background: #0b1324;   /* fond en attente */
-  touch-action: none;     /* drag confortable sur mobile */
+  position:relative;
+  width:100%;
+  /* taille du composant : fixe et indépendante des images */
+  aspect-ratio: var(--cmp-ar, 16/9);
+  height: var(--cmp-h, auto);         /* si défini, l'aspect est ignoré */
+  border-radius:1rem;
+  overflow:hidden;                     /* masque les images, pas la poignée */
+  background:#0b1324;
+  touch-action:none;                   /* évite le scroll pendant le drag */
+  --reveal: 50%;                       /* position initiale (0%..100%) */
 }
 
+/* calques */
 .compare .before,
 .compare .after{ position:absolute; inset:0; }
 
-
 .compare img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; object-position:center; display:block;
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;                    /* images recadrées mais taille DU COMPOSANT fixe */
+  object-position:center;
   user-select:none; pointer-events:none;
 }
 
-.compare .after{ width:var(--reveal); overflow:hidden; }
+/* Révélation : on masque la partie gauche de “après” selon --reveal.
+   → Avant visible à gauche, Après qui se DÉVOILE à droite. */
+.compare .after{ clip-path: inset(0 0 0 var(--reveal)); }
 
-/* ligne du séparateur dans la zone image */
+/* séparateur + poignée toujours au-dessus */
 .compare .handle{
-  position:absolute; top:0; bottom:0; left:var(--reveal);
-  width:2px; background:rgba(255,255,255,.95); box-shadow:0 0 0 1px rgba(15,23,42,.2);
+  position:absolute; top:0; bottom:0;
+  left:var(--reveal);
+  width:2px;
+  background:rgba(255,255,255,.95);
+  box-shadow:0 0 0 1px rgba(15,23,42,.2);
   transform:translateX(-1px);
+  z-index:2;
 }
-
-/* poignée visible AU-DESSUS de la boîte (jamais rognée) */
-.compare-wrap .knob{
-  position:absolute; top:50%; left:var(--reveal);
+.compare .knob{
+  position:absolute;
+  left:var(--reveal); top:50%;
   transform:translate(-50%,-50%);
-  width:44px; height:44px; border-radius:9999px; background:#fff;
-  filter: drop-shadow(0 10px 30px rgba(2,132,199,.25)) drop-shadow(0 0 0 1px rgba(15,23,42,.08));
-  z-index: 40;            /* au dessus des bords arrondis */
-  display:grid; place-items:center; font-size:18px; line-height:1;
-  pointer-events:none;    /* l’interaction se fait sur la zone entière */
+  width:44px; height:44px;
+  border-radius:9999px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(2,132,199,.25),0 0 0 1px rgba(15,23,42,.08);
+  display:grid; place-items:center;
+  font-size:18px; line-height:1;
+  z-index:3;                           /* au-dessus des images ET de la ligne */
 }
 
 /* range invisible mais focusable (clavier) */
 .compare input.range{ position:absolute; inset:0; opacity:0; }
 
 /* Légendes */
-.compare-labels{
-  display:flex; font-size:.78rem; color:#475569; user-select:none;
-}
+.compare-labels{ display:flex; font-size:.75rem; color:#475569; }
 .compare-labels > span{ flex:1; text-align:center; padding:.5rem 0; }
-.compare-labels > span:first-child{ background:#f1f5f9; border-bottom-left-radius:1rem; }
-.compare-labels > span:last-child{  background:#eff6ff; color:#2563eb; border-bottom-right-radius:1rem; }
+.compare-labels > span:first-child{ background:#f1f5f9; }
+.compare-labels > span:last-child{  background:#eff6ff; color:#2563eb; }
 
 /* ===== FAQ ===== */
 .faq-item{ border:1px solid #e2e8f0; border-radius:.75rem; background:#fff; padding:1.25rem; }

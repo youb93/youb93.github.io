@@ -213,97 +213,90 @@
   })();
 
   // --- Avant / Après ------------------------------------------------------
-  (function compare(){
-    const grid = $('#compare-grid'); if (!grid || !Array.isArray(cfg.comparisons)) return;
-    const tpl  = $('#tpl-compare');  if (!tpl) { console.warn('tpl-compare manquant'); return; }
-    grid.innerHTML = '';
+  // --- Avant / Après ------------------------------------------------------
+(function compare(){
+  const grid = document.querySelector('#compare-grid');
+  const tpl  = document.querySelector('#tpl-compare');
+  if (!grid || !tpl) return;
 
-    // prefs UI (ratio / hauteur)
-    const aspect   = (cfg.ui?.compare?.aspect || '16:9').replace(':','/'); // CSS attend 16/9
-    const heightPx = cfg.ui?.compare?.height_px;
+  const cfgCmp = (window.__site_cfg_ui_compare) || {}; // pas obligatoire
+  const aspect   = (cfg?.ui?.compare?.aspect || '16:9').replace(':','/');
+  const heightPx = cfg?.ui?.compare?.height_px;
 
-    cfg.comparisons.forEach(c=>{
-      const frag = tpl.content.cloneNode(true);
+  grid.innerHTML = '';
 
-      // taille stable du composant
-      const wrap = $('.compare-wrap', frag);
-      const cmp  = $('.compare', frag);
-      if (cmp){
-        cmp.style.setProperty('--cmp-ar', aspect);
-        if (heightPx) cmp.style.setProperty('--cmp-h', `${heightPx}px`);
-      }
+  // construire les items
+  (cfg?.comparisons || []).forEach(c=>{
+    const frag = tpl.content.cloneNode(true);
+    const cmp  = frag.querySelector('.compare');
 
-      // images + labels (+ option invert)
-      let beforeSrc = c.before, afterSrc = c.after;
-      if (c.invert) [beforeSrc, afterSrc] = [afterSrc, beforeSrc];
+    // taille stable du composant (indépendante des images)
+    if (cmp){
+      cmp.style.setProperty('--cmp-ar', aspect);
+      if (heightPx) cmp.style.setProperty('--cmp-h', `${heightPx}px`);
+    }
 
-      const bImg = $('[data-attr-src="before"]', frag);
-      const aImg = $('[data-attr-src="after"]' , frag);
-      if (bImg){ bImg.src = beforeSrc; bImg.alt = c.alt_before || 'Avant nettoyage'; }
-      if (aImg){ aImg.src = afterSrc;  aImg.alt = c.alt_after  || 'Après nettoyage'; }
-      $('[data-text="label_before"]', frag).textContent = c.label_before || 'Avant';
-      $('[data-text="label_after"]' , frag).textContent = c.label_after  || 'Après';
+    // support "invert: true" pour corriger un couple fourni à l'envers
+    let beforeSrc = c.before, afterSrc = c.after;
+    if (c.invert) [beforeSrc, afterSrc] = [afterSrc, beforeSrc];
 
-      grid.appendChild(frag);
+    // images + labels
+    const bImg = frag.querySelector('[data-attr-src="before"]');
+    const aImg = frag.querySelector('[data-attr-src="after"]');
+    if (bImg){ bImg.src = beforeSrc; bImg.alt = c.alt_before || 'Avant nettoyage'; }
+    if (aImg){ aImg.src = afterSrc;  aImg.alt = c.alt_after  || 'Après nettoyage'; }
+    const lb = frag.querySelector('[data-text="label_before"]');
+    const la = frag.querySelector('[data-text="label_after"]');
+    if (lb) lb.textContent = c.label_before || 'Avant';
+    if (la) la.textContent = c.label_after  || 'Après';
 
-      // interactions par composant
-      const handle = $('.handle', wrap);
-      const knob   = $('.knob', wrap);
-      const range  = $('input.range', wrap);
-      let reveal = 50; // %
-      const setPct = (pct)=>{
-        reveal = Math.min(100, Math.max(0, pct));
-        cmp.style.setProperty('--reveal', reveal + '%');
-        handle.style.left = reveal + '%';
-        knob.style.left   = reveal + '%';
-        range.value = reveal;
-      };
+    grid.appendChild(frag);
+  });
 
-      // Edge-guard : évite que la poignée touche le cadre (visuel)
-      const guardedPct = (clientX)=>{
-        const r = cmp.getBoundingClientRect();
-        const knobW = knob.getBoundingClientRect().width || 44;
-        const guard = (knobW/2) / r.width;          // marge en %
-        const raw   = (clientX - r.left) / r.width; // 0..1
-        return (Math.max(guard, Math.min(1-guard, raw))) * 100;
-      };
+  // interactions par instance (indépendantes)
+  grid.querySelectorAll('.compare').forEach(cmp=>{
+    const range  = cmp.querySelector('input.range');
 
-      // pointer drag fluide (+ capture)
-      let raf=null;
-      const update = (e)=>{
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(()=> setPct(guardedPct(e.clientX)));
-      };
-      cmp.addEventListener('pointerdown', (e)=>{
-        cmp.setPointerCapture?.(e.pointerId);
-        update(e);
-        const move=(ev)=>update(ev);
-        const up=()=>{
-          cmp.releasePointerCapture?.(e.pointerId);
-          window.removeEventListener('pointermove',move);
-          window.removeEventListener('pointerup',up);
-        };
-        window.addEventListener('pointermove',move);
-        window.addEventListener('pointerup',up);
-      });
+    const setPct = (p)=>{
+      const pct = Math.min(100, Math.max(0, p));
+      cmp.style.setProperty('--reveal', pct + '%'); // ← variable LOCALE au composant
+      if (range) range.value = pct;
+    };
 
-      // clavier (accessibilité)
-      range.addEventListener('keydown', (e)=>{
-        let v = parseFloat(range.value||'50');
-        if (e.key==='ArrowLeft'){ setPct(v-2); e.preventDefault(); }
-        if (e.key==='ArrowRight'){ setPct(v+2); e.preventDefault(); }
-        if (e.key==='Home'){ setPct(0); e.preventDefault(); }
-        if (e.key==='End'){ setPct(100); e.preventDefault(); }
-      });
-      // slider "virtuel" synchronisé
-      range.addEventListener('input', ()=> setPct(parseFloat(range.value||'50')));
+    const posToPct = (x)=>{
+      const r = cmp.getBoundingClientRect();
+      return ((x - r.left) / r.width) * 100;
+    };
 
-      // double-clic -> reset 50%
-      wrap.addEventListener('dblclick', ()=> setPct(50));
+    // gestures mobiles + desktop (pointer capture)
+    const onMove = (e)=>{
+      const clientX = (e.touches?.[0]?.clientX) ?? e.clientX;
+      if (clientX != null) setPct(posToPct(clientX));
+    };
 
-      setPct(50);
+    cmp.addEventListener('pointerdown', (e)=>{
+      cmp.setPointerCapture?.(e.pointerId);
+      onMove(e);
     });
-  })();
+    cmp.addEventListener('pointermove', onMove);
+    cmp.addEventListener('pointerup',   ()=>{/* fin drag */});
+    cmp.addEventListener('dblclick',    ()=> setPct(50));
+
+    // clavier
+    if (range){
+      range.addEventListener('input', ()=> setPct(parseFloat(range.value || '50')));
+      range.addEventListener('keydown', (e)=>{
+        const v = parseFloat(range.value || '50');
+        if (e.key === 'ArrowLeft')  { setPct(v-2); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { setPct(v+2); e.preventDefault(); }
+        if (e.key === 'Home')       { setPct(0);   e.preventDefault(); }
+        if (e.key === 'End')        { setPct(100); e.preventDefault(); }
+      });
+    }
+
+    setPct(50); // état initial
+  });
+})();
 
   // --- FAQ ----------------------------------------------------------------
   (function faq(){
