@@ -92,6 +92,29 @@
     });
   })();
 
+  // --- Présentation ---------------------------------------------------------
+  (function intro(){
+    const wrap = document.querySelector('#intro-content');
+    if (!wrap) return;
+
+    // Titre (hydrater l’élément data-text)
+    const titleEl = document.querySelector('[data-text="copy.sections.intro.title"]');
+    if (titleEl && cfg.copy?.sections?.intro?.title){
+      titleEl.textContent = cfg.copy.sections.intro.title;
+    }
+
+    // Paragraphes (array dans le JSON)
+    const paras = cfg.copy?.sections?.intro?.paragraphs;
+    if (Array.isArray(paras)){
+      wrap.innerHTML = '';
+      paras.forEach(text=>{
+        const p = document.createElement('p');
+        p.className = 'text-slate-700 text-base md:text-lg leading-relaxed mb-4';
+        p.textContent = text;
+        wrap.appendChild(p);
+      });
+    }
+  })();
   // --- Plans --------------------------------------------------------------
   (function plans(){
     const grid = $('#plans-grid'); if (!grid || !Array.isArray(cfg.plans)) return;
@@ -212,39 +235,38 @@
     go(0);
   })();
 
-  // --- Avant / Après ------------------------------------------------------
-  // --- Avant / Après ------------------------------------------------------
+// --- Avant / Après (v2, fixe, indépendant par carte) ----------------------
 (function compare(){
   const grid = document.querySelector('#compare-grid');
+  if (!grid || !Array.isArray(cfg.comparisons)) return;
   const tpl  = document.querySelector('#tpl-compare');
-  if (!grid || !tpl) return;
-
-  const cfgCmp = (window.__site_cfg_ui_compare) || {}; // pas obligatoire
-  const aspect   = (cfg?.ui?.compare?.aspect || '16:9').replace(':','/');
-  const heightPx = cfg?.ui?.compare?.height_px;
+  if (!tpl) { console.warn('tpl-compare manquant'); return; }
 
   grid.innerHTML = '';
 
-  // construire les items
-  (cfg?.comparisons || []).forEach(c=>{
-    const frag = tpl.content.cloneNode(true);
-    const cmp  = frag.querySelector('.compare');
+  // prefs UI depuis le JSON
+  const aspect   = (cfg.ui?.compare?.aspect || '16:9').replace(':','/'); // CSS attend 16/9
+  const heightPx = cfg.ui?.compare?.height_px; // ex: 420
 
-    // taille stable du composant (indépendante des images)
+  cfg.comparisons.forEach(c=>{
+    const frag = tpl.content.cloneNode(true);
+
+    // boîte stable (ratio/hauteur configurable)
+    const cmp = frag.querySelector('.compare');
     if (cmp){
       cmp.style.setProperty('--cmp-ar', aspect);
       if (heightPx) cmp.style.setProperty('--cmp-h', `${heightPx}px`);
     }
 
-    // support "invert: true" pour corriger un couple fourni à l'envers
+    // images + labels (support invert:true)
     let beforeSrc = c.before, afterSrc = c.after;
     if (c.invert) [beforeSrc, afterSrc] = [afterSrc, beforeSrc];
 
-    // images + labels
     const bImg = frag.querySelector('[data-attr-src="before"]');
     const aImg = frag.querySelector('[data-attr-src="after"]');
-    if (bImg){ bImg.src = beforeSrc; bImg.alt = c.alt_before || 'Avant nettoyage'; }
-    if (aImg){ aImg.src = afterSrc;  aImg.alt = c.alt_after  || 'Après nettoyage'; }
+    if (bImg){ bImg.src = beforeSrc; bImg.alt = c.alt_before || 'Avant nettoyage'; bImg.loading = 'lazy'; bImg.decoding = 'async'; }
+    if (aImg){ aImg.src = afterSrc;  aImg.alt = c.alt_after  || 'Après nettoyage'; aImg.loading = 'lazy'; aImg.decoding = 'async'; }
+
     const lb = frag.querySelector('[data-text="label_before"]');
     const la = frag.querySelector('[data-text="label_after"]');
     if (lb) lb.textContent = c.label_before || 'Avant';
@@ -253,48 +275,76 @@
     grid.appendChild(frag);
   });
 
-  // interactions par instance (indépendantes)
-  grid.querySelectorAll('.compare').forEach(cmp=>{
-    const range  = cmp.querySelector('input.range');
+  // Interactions par instance (glisser une carte n’affecte pas les autres)
+  Array.from(grid.querySelectorAll('.compare')).forEach(wrap=>{
+    const range  = wrap.querySelector('input.range');
+    if (!range) return;
 
-    const setPct = (p)=>{
-      const pct = Math.min(100, Math.max(0, p));
-      cmp.style.setProperty('--reveal', pct + '%'); // ← variable LOCALE au composant
-      if (range) range.value = pct;
-    };
+    let minPct = 0, maxPct = 100;
 
-    const posToPct = (x)=>{
-      const r = cmp.getBoundingClientRect();
-      return ((x - r.left) / r.width) * 100;
-    };
-
-    // gestures mobiles + desktop (pointer capture)
-    const onMove = (e)=>{
-      const clientX = (e.touches?.[0]?.clientX) ?? e.clientX;
-      if (clientX != null) setPct(posToPct(clientX));
-    };
-
-    cmp.addEventListener('pointerdown', (e)=>{
-      cmp.setPointerCapture?.(e.pointerId);
-      onMove(e);
-    });
-    cmp.addEventListener('pointermove', onMove);
-    cmp.addEventListener('pointerup',   ()=>{/* fin drag */});
-    cmp.addEventListener('dblclick',    ()=> setPct(50));
-
-    // clavier
-    if (range){
-      range.addEventListener('input', ()=> setPct(parseFloat(range.value || '50')));
-      range.addEventListener('keydown', (e)=>{
-        const v = parseFloat(range.value || '50');
-        if (e.key === 'ArrowLeft')  { setPct(v-2); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { setPct(v+2); e.preventDefault(); }
-        if (e.key === 'Home')       { setPct(0);   e.preventDefault(); }
-        if (e.key === 'End')        { setPct(100); e.preventDefault(); }
-      });
+    function recalcBounds(){
+      const knob = wrap.querySelector('.knob');
+      const rect = wrap.getBoundingClientRect();
+      const pad  = (knob?.offsetWidth || 44) / 2 + 2;
+      minPct = (pad / rect.width) * 100;
+      maxPct = 100 - minPct;
     }
 
-    setPct(50); // état initial
+    function setPct(p){
+      const clamped = Math.min(maxPct, Math.max(minPct, p));
+      wrap.style.setProperty('--reveal', clamped);
+      range.value = String(clamped);
+    }
+
+    function posToPct(clientX){
+      const r = wrap.getBoundingClientRect();
+      return ((clientX - r.left) / r.width) * 100;
+    }
+
+    // Clavier
+    range.addEventListener('keydown', (e)=>{
+      let v = parseFloat(range.value || '50');
+      if (e.key === 'ArrowLeft')  { setPct(v - 2); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { setPct(v + 2); e.preventDefault(); }
+      if (e.key === 'Home')       { setPct(0);     e.preventDefault(); }
+      if (e.key === 'End')        { setPct(100);   e.preventDefault(); }
+    });
+    range.addEventListener('input', ()=> setPct(parseFloat(range.value || '50')));
+
+    // Pointeur (souris/pen/touch) fluide
+    let raf = null;
+    const update = (e)=>{
+      const x = e.clientX ?? (e.touches && e.touches[0]?.clientX);
+      if (typeof x !== 'number') return;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(()=> setPct(posToPct(x)));
+    };
+
+    // on capte sur toute la zone .compare (pas besoin de viser la poignée)
+    wrap.addEventListener('pointerdown', (e)=>{
+      wrap.setPointerCapture?.(e.pointerId);
+      update(e);
+      const move = (ev)=> update(ev);
+      const up   = ()=>{
+        wrap.releasePointerCapture?.(e.pointerId);
+        window.removeEventListener('pointermove', move, true);
+        window.removeEventListener('pointerup',   up,   true);
+      };
+      window.addEventListener('pointermove', move, true);
+      window.addEventListener('pointerup',   up,   true);
+    }, {passive:false});
+
+    // iOS/Android (au cas où le mode pointer ne suffit pas)
+    wrap.addEventListener('touchstart', update, {passive:true});
+    wrap.addEventListener('touchmove',  update, {passive:true});
+
+    // double-clic = reset 50%
+    wrap.addEventListener('dblclick', ()=> setPct(50));
+
+    // init
+    recalcBounds();
+    window.addEventListener('resize', recalcBounds, {passive:true});
+    setPct(50);
   });
 })();
 

@@ -1,3 +1,8 @@
+/* ==========================================================================
+   LNA CleanAuto — STYLE GLOBAL
+   (Tailwind CDN gère la majorité des utilitaires)
+   ========================================================================== */
+
 /* ===== Base ===== */
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
@@ -12,9 +17,11 @@ body { -webkit-font-smoothing: antialiased; }
   border-radius:.5rem; box-shadow:0 20px 60px rgba(2,132,199,.25);
   position:relative; overflow:hidden;
 }
-.separator .diamond img{ position:absolute; inset:0; object-fit:contain; transform:rotate(-45deg); }
+.separator .diamond img{
+  position:absolute; inset:0; object-fit:contain; transform:rotate(-45deg);
+}
 
-/* ===== Plans / Services ===== */
+/* ===== Cartes Plans / Services ===== */
 .plan-card{
   display:flex; flex-direction:column; background:#fff; border-radius:1rem; padding:1.5rem;
   box-shadow:0 10px 30px rgba(2,132,199,.08); border:1px solid rgba(15,23,42,.12);
@@ -22,9 +29,12 @@ body { -webkit-font-smoothing: antialiased; }
 .plan-title{ font-weight:600; color:#0f172a; font-size:1.125rem; }
 .plan-bullets{ margin-top:1rem; color:#334155; font-size:.9rem; line-height:1.6; }
 .plan-prices{ margin-top:auto; }
-.price-wrap{ margin-top:1rem; background:#f8fafc; border:1px solid #e2e8f0; padding:.75rem; border-radius:.75rem; }
+.price-wrap{
+  margin-top:1rem; background:#f8fafc; border:1px solid #e2e8f0; padding:.75rem; border-radius:.75rem;
+}
 .price-badge{
-  display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:9999px; padding:.5rem 1rem;
+  display:flex; align-items:center; justify-content:space-between;
+  background:#fff; border-radius:9999px; padding:.5rem 1rem;
   border:1px solid #bfdbfe; box-shadow:0 10px 30px rgba(2,132,199,.08);
 }
 .price-label{ color:#475569; font-size:.85rem; }
@@ -37,84 +47,121 @@ body { -webkit-font-smoothing: antialiased; }
   box-shadow:0 10px 30px rgba(2,132,199,.08); transition: box-shadow .2s ease;
 }
 .service-card:hover{ box-shadow:0 14px 40px rgba(2,132,199,.14); }
-.service-icon{ width:3rem; height:3rem; border-radius:.75rem; background:#dbeafe; color:#1d4ed8; display:grid; place-items:center; margin-bottom:1rem; }
+.service-icon{
+  width:3rem; height:3rem; border-radius:.75rem; background:#dbeafe; color:#1d4ed8;
+  display:grid; place-items:center; margin-bottom:1rem;
+}
 
-/* ===== Carousel ===== */
+/* ===== Carrousel (galerie) ===== */
 .carousel-viewport{ overflow:hidden; }
-.carousel-track{ display:flex; transition:transform .45s cubic-bezier(.22,.61,.36,1); will-change:transform; }
+.carousel-track{
+  display:flex; transition:transform .45s cubic-bezier(.22,.61,.36,1); will-change:transform;
+}
 .carousel-slide{ min-width:100%; }
 @media (min-width:768px){ .carousel-slide{ min-width:50% } }
 .carousel-img{ width:100%; height:320px; object-fit:cover; }
 @media (min-width:768px){ .carousel-img{ height:420px } }
 .carousel-caption{ padding:.75rem 1rem; color:#475569; font-size:.9rem; }
 
-/* ===== Before / After =====
-   - Boîte stable (ratio + hauteur configurables)
-   - Images recadrées, composant ne bouge pas
-   - Poignée rendue au-dessus, jamais rognée
-*/
-/* ===== Before / After — fixe, indépendant, mobile-first ===== */
+/* ==========================================================================
+   BEFORE / AFTER — v2
+   - Taille stable (images en cover, le composant ne bouge pas)
+   - Vrai “reveal” : seul le calque .after est masqué/affiché
+   - Poignée toujours visible (au-dessus, jamais rognée)
+   - Mobile-friendly : pas de débordement, hauteur par défaut si non fournie
+   ========================================================================== */
 
-.compare-wrap{ border-radius:1rem; }
-
-.compare{
-  position:relative;
-  width:100%;
-  /* taille du composant : fixe et indépendante des images */
-  aspect-ratio: var(--cmp-ar, 16/9);
-  height: var(--cmp-h, auto);         /* si défini, l'aspect est ignoré */
-  border-radius:1rem;
-  overflow:hidden;                     /* masque les images, pas la poignée */
-  background:#0b1324;
-  touch-action:none;                   /* évite le scroll pendant le drag */
-  --reveal: 50%;                       /* position initiale (0%..100%) */
+/* Conteneur stable, aucune fuite horizontale */
+.compare-wrap{
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: transparent;                 /* évite la bande colorée sous l’image */
+  box-shadow: 0 10px 30px rgba(2,132,199,.08);
 }
 
-/* calques */
+/* Zone d’affichage */
+.compare{
+  position: relative;
+  width: 100%;
+  /* Variables configurables via JS (site.config.json) */
+  --cmp-ar: 16/9;                           /* ratio par défaut */
+  --cmp-h: auto;                            /* hauteur fixe optionnelle (px) */
+  --reveal: 50;                             /* pourcentage 0..100 */
+  --knob-pad: 24px;                         /* marge min pour la poignée */
+  aspect-ratio: var(--cmp-ar);
+  height: var(--cmp-h);
+  touch-action: none;                       /* glisser sans scroller */
+  line-height: 0;                           /* empêche toute “bande” sous l’image */
+  isolation: isolate;                       /* z-index prévisible pour la poignée */
+}
+
+/* Hauteur sympa sur mobile si aucune hauteur n’est fournie */
+@media (max-width:640px){
+  .compare{ height: var(--cmp-h, 260px); aspect-ratio: auto; }
+}
+
+/* Calques */
 .compare .before,
 .compare .after{ position:absolute; inset:0; }
 
 .compare img{
   position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover;                    /* images recadrées mais taille DU COMPOSANT fixe */
-  object-position:center;
-  user-select:none; pointer-events:none;
+  object-fit:cover; object-position:center;
+  display:block; user-select:none; pointer-events:none;
 }
 
-/* Révélation : on masque la partie gauche de “après” selon --reveal.
-   → Avant visible à gauche, Après qui se DÉVOILE à droite. */
-.compare .after{ clip-path: inset(0 0 0 var(--reveal)); }
+/* Vrai reveal : on ouvre uniquement le calque "Après" */
+.compare .after{
+  width: calc(var(--reveal) * 1%);   /* 0..100% */
+  overflow:hidden;
+  z-index:0;
+}
 
-/* séparateur + poignée toujours au-dessus */
+/* Ligne du séparateur — inline style "left:%" posé par le JS
+   (s’il n’y a pas d’inline style, on se base sur --reveal) */
 .compare .handle{
   position:absolute; top:0; bottom:0;
-  left:var(--reveal);
-  width:2px;
-  background:rgba(255,255,255,.95);
+  left: calc(var(--reveal) * 1%);
+  width:2px; background:rgba(255,255,255,.95);
   box-shadow:0 0 0 1px rgba(15,23,42,.2);
   transform:translateX(-1px);
-  z-index:2;
-}
-.compare .knob{
-  position:absolute;
-  left:var(--reveal); top:50%;
-  transform:translate(-50%,-50%);
-  width:44px; height:44px;
-  border-radius:9999px;
-  background:#fff;
-  box-shadow:0 10px 30px rgba(2,132,199,.25),0 0 0 1px rgba(15,23,42,.08);
-  display:grid; place-items:center;
-  font-size:18px; line-height:1;
-  z-index:3;                           /* au-dessus des images ET de la ligne */
+  z-index:10;
 }
 
-/* range invisible mais focusable (clavier) */
+/* Poignée circulaire — TOUJOURS visible
+   - On masque le texte interne “⇆” et on dessine l’icône via ::before,
+     plus fiable sur Android. */
+.compare .knob{
+  position:absolute; top:50%;
+  left: calc(var(--reveal) * 1%);
+  transform:translate(-50%,-50%);
+  width:44px !important; height:44px !important;
+  border-radius:9999px;
+  background:#fff; border:1px solid rgba(15,23,42,.15);
+  box-shadow:0 10px 30px rgba(2,132,199,.25), 0 0 0 1px rgba(15,23,42,.08);
+  display:flex !important; align-items:center; justify-content:center;
+  pointer-events:none;
+  z-index:11;
+  font-size:0;                                 /* cache le caractère "⇆" du HTML */
+}
+.compare .knob::before{
+  content:"↔"; font-size:18px; font-weight:600; color:#1f2937;
+}
+
+/* Input range : invisible mais focusable (clavier OK) */
 .compare input.range{ position:absolute; inset:0; opacity:0; }
 
-/* Légendes */
-.compare-labels{ display:flex; font-size:.75rem; color:#475569; }
-.compare-labels > span{ flex:1; text-align:center; padding:.5rem 0; }
+/* Légendes (Avant / Après) */
+.compare-labels{
+  display:flex; font-size:.85rem; color:#475569;
+}
+.compare-labels > span{
+  flex:1; text-align:center; padding:.65rem 0;
+}
 .compare-labels > span:first-child{ background:#f1f5f9; }
 .compare-labels > span:last-child{  background:#eff6ff; color:#2563eb; }
 
@@ -126,6 +173,27 @@ body { -webkit-font-smoothing: antialiased; }
 .faq-item[open] .faq-caret{ transform: rotate(180deg); }
 .faq-answer{ margin-top:.5rem; color:#475569; }
 
-/* ===== Accessibilité ===== */
+/* ===== Accessibilité / Préférences ===== */
 :focus-visible{ outline:3px solid #2563eb; outline-offset:2px; }
-@media (prefers-reduced-motion: reduce){ .carousel-track{ transition:none; } }
+@media (prefers-reduced-motion: reduce){
+  .carousel-track{ transition:none; }
+}
+
+
+/* === PATCH slider: bouton visible, centré, toujours au-dessus === */
+.compare .after{ z-index:0; }               /* l'image "après" reste sous la ligne */
+.compare .handle{ z-index:20; position:absolute; top:0; bottom:0; left: calc(var(--reveal) * 1%); width:2px;
+  background: rgba(255,255,255,.95); box-shadow:0 0 0 1px rgba(15,23,42,.2); transform:translateX(-1px);
+}
+
+/* Le bouton est dessiné par la ligne elle-même */
+.compare .handle::after{
+  content:"↔";
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:44px; height:44px; border-radius:9999px;
+  background:#fff; border:1px solid rgba(15,23,42,.15);
+  box-shadow:0 10px 30px rgba(2,132,199,.25), 0 0 0 1px rgba(15,23,42,.08);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; font-weight:600; color:#1f2937;
+  pointer-events:none;                        /* ne bloque pas les gestes */
+}

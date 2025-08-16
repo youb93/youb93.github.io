@@ -29,6 +29,7 @@
     "sections": {
       "forfaits":  { "title": "Forfaits clairs, sans surprise", "subtitle": "Intérieur, Intenso, Extérieur, Canapé & Tapis." },
       "services":  { "title": "Nos services", "subtitle": "Nous venons à domicile avec du matériel pro." },
+      "intro":     { "title": "Présentation","paragraphs": ["Je propose un service de nettoyage automobile professionnel sur Lyon et ses alentours, pensé pour redonner à chaque véhicule tout son éclat. Que ce soit pour l’intérieur ou l’extérieur, j’apporte un soin particulier à chaque détail : aspiration en profondeur, dépoussiérage des surfaces, nettoyage des vitres, lavage de la carrosserie et des jantes. Chaque prestation est adaptée aux besoins spécifiques de mes clients, qu’ils soient particuliers ou professionnels.","Mon objectif est simple : vous offrir une voiture propre, agréable et confortable, tout en vous faisant gagner du temps grâce à ma disponibilité et ma proximité. Je privilégie des produits de qualité, respectueux des matériaux, et j’accorde une attention particulière à la finition afin de garantir un résultat irréprochable. Installé à Lyon, je me déplace dans toute la métropole et ses alentours pour vous proposer un service pratique, réactif et de confiance."]},
       "galerie":   { "title": "Galerie", "subtitle": "Un aperçu de nos prestations récentes." },
       "compare":   { "title": "Avant / Après", "subtitle": "Glissez le bouton pour voir la différence." },
       "faq":       { "title": "Questions fréquentes", "subtitle": "Si vous ne trouvez pas, écrivez-nous." },
@@ -65,7 +66,7 @@
   },
   "plans": [
     {
-      "name": "Nettoyage intérieur",
+      "name": "NETTOYAGE INTERIEUR",
       "kind": "interior",
       "bullets": [
         "Aspiration complète du véhicule",
@@ -79,7 +80,7 @@
       ]
     },
     {
-      "name": "Intérieur Intenso",
+      "name": "NETTOYAGE INTERIEUR INTENSE",
       "kind": "interior-plus",
       "bullets": [
         "Aspiration complète du véhicule",
@@ -95,7 +96,7 @@
       ]
     },
     {
-      "name": "Nettoyage extérieur",
+      "name": "NETTOYAGE EXTERIEUR",
       "kind": "exterior",
       "bullets": [
         "Application d’un démoustiquant",
@@ -107,11 +108,11 @@
       ],
       "prices": [
         { "label": "Citadine", "amount": "30€" },
-        { "label": "SUV",      "amount": "30€" }
+        { "label": "SUV",      "amount": "40€" }
       ]
     },
     {
-      "name": "Nettoyage canapé & tapis",
+      "name": "NETTOYAGE MOBILIER",
       "kind": "home-textile",
       "bullets": [],
       "prices": [
@@ -135,44 +136,42 @@
   ],
   "ui": {
     "compare": {
-      "aspect": "16:9",
-      "height_px": 420
+      "aspect": "16:9"
     }
   },
   "comparisons": [
     {
       "before": "assets/gallerie/1_avant.jpeg",
       "after":  "assets/gallerie/1_apres.jpeg",
-      "label_before": "Avant (siège)",
-      "label_after":  "Après (siège)",
+      "label_before": "",
+      "label_after":  "",
       "invert": true
     },
     {
       "before": "assets/gallerie/2_avant.jpeg",
       "after":  "assets/gallerie/2_apres.jpeg",
-      "label_before": "Avant (siège)",
-      "label_after":  "Après (siège)",
+      "label_before": "",
+      "label_after":  "",
       "invert": true
     },
     {
       "before": "assets/gallerie/5_avant.jpeg",
       "after":  "assets/gallerie/5_apres.jpeg",
-      "label_before": "Avant (siège)",
-      "label_after":  "Après (siège)",
+      "label_before": "",
+      "label_after":  "",
       "invert": true
     },
     {
       "before": "assets/gallerie/6_avant.jpeg",
       "after":  "assets/gallerie/6_apres.jpeg",
-      "label_before": "Avant (siège)",
-      "label_after":  "Après (siège)",
+      "label_before": "",
+      "label_after":  "",
       "invert": true
     }
   ],
   "faq": [
     { "q": "Combien de temps pour un complet intérieur + extérieur ?", "a": "3–4 h selon l’état. Estimation donnée avant de commencer." },
-    { "q": "Produits employés ?", "a": "Gamme pro à impact réduit, méthodes douces, récupération d’eau quand possible." },
-    { "q": "Déplacement à domicile ?", "a": "Oui, ~30 km autour de Lyon. Atelier recommandé pour la céramique." },
+    { "q": "Déplacement à domicile ?", "a": "Oui, ~30 km autour de Lyon." },
     { "q": "Faut-il prévoir de l’eau ou une prise électrique ?", "a": "Nous sommes autonomes la plupart du temps. Si un raccord est nécessaire, on vous le précise au RDV." },
     { "q": "Que préparer avant notre passage ?", "a": "Retirez les effets personnels et libérez une place accessible. C’est tout !" },
     { "q": "Et si la météo est mauvaise ?", "a": "En cas de pluie forte/canicule, on reprogramme gratuitement pour garantir la qualité." }
