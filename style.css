@@ -98,10 +98,6 @@ body { -webkit-font-smoothing: antialiased; }
   isolation: isolate;                       /* z-index prévisible pour la poignée */
 }
 
-/* Hauteur sympa sur mobile si aucune hauteur n’est fournie */
-@media (max-width:640px){
-  .compare{ height: var(--cmp-h, 260px); aspect-ratio: auto; }
-}
 
 /* Calques */
 .compare .before,
@@ -196,4 +192,6 @@ body { -webkit-font-smoothing: antialiased; }
   display:flex; align-items:center; justify-content:center;
   font-size:18px; font-weight:600; color:#1f2937;
   pointer-events:none;                        /* ne bloque pas les gestes */
-}
+}/* === Mobile fix: l'input ne “vole” pas le geste, Safari iOS friendly === */
+.compare { -webkit-user-select: none; user-select: none; }
+.compare input.range { touch-action: none; } /* on gère nous-mêmes le slide */
