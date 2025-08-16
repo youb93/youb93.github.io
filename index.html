@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Meta dynamiques injectées par app.js depuis site.config.json -->
+  <title></title>
+  <meta name="description" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='82'>🫧</text></svg>'">
+
+  <!-- Tailwind (utilitaires) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins','ui-sans-serif','system-ui'] },
+          colors: { brand: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8' } },
+          boxShadow: { soft: '0 10px 30px rgba(2,132,199,.08)' }
+        }
+      }
+    }
+  </script>
+
+  <!-- Styles custom -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-700">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-white backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3 font-semibold text-slate-900">
+        <img id="brand-logo" class="h-10" style="height:80px;" hidden alt="">
+        <span class="brand-name"></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a class="hover:text-brand-700" href="#forfaits"    data-text="copy.nav.forfaits"></a>
+        <a class="hover:text-brand-700" href="#services"    data-text="copy.nav.services"></a>
+        <a class="hover:text-brand-700" href="#galerie"     data-text="copy.nav.galerie"></a>
+        <a class="hover:text-brand-700" href="#avant-apres" data-text="copy.nav.avant_apres"></a>
+        <a class="hover:text-brand-700" href="#faq"         data-text="copy.nav.faq"></a>
+        <a class="hover:text-brand-700 ig-link flex items-center gap-2" href="#" target="_blank" rel="noopener">
+          <img class="icon-inline" data-attr-src="brand.instagram_icon" alt="Instagram" />
+          <span data-text="copy.nav.instagram"></span>
+        </a>
+        <a id="nav-cta" href="#contact" class="ml-2 inline-flex items-center rounded-full bg-brand-600 text-white px-4 py-2 hover:bg-brand-700 shadow-soft" data-text="copy.nav.devis"></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="relative min-h-[85vh] md:min-h-[92vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <video id="hero-video" class="w-full h-full object-cover" autoplay muted loop playsinline preload="metadata"></video>
+      <img id="hero-image" src="" alt="" class="w-full h-full object-cover hidden" loading="eager" fetchpriority="high"/>
+    </div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-white/40 via-white/25 to-black/10"></div>
+    <div class="relative z-10 w-full">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-28 pb-16 text-center">
+        <h1 id="hero-title" class="mt-4 text-4xl sm:text-5xl font-extrabold text-white leading-tight"></h1>
+        <p id="hero-subtitle" class="mt-4 text-lg text-white max-w-2xl mx-auto"></p>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a id="cta-primary"  class="inline-flex items-center gap-2 rounded-full bg-brand-600 text-white px-6 py-3 hover:bg-brand-700 shadow-soft"></a>
+          <a id="cta-secondary" class="inline-flex items-center gap-2 rounded-full px-6 py-3 ring-1 ring-white/60 text-white hover:bg-white hover:text-slate-900 transition"></a>
+        </div>
+        <ul id="hero-bullets" class="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-white"></ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- SÉPARATEUR LOSANGE -->
+  <section aria-hidden="true" class="separator">
+    <div class="diamond">
+      <img id="separator-logo" alt="">
+    </div>
+  </section>
+
+  <!-- FORFAITS -->
+  <section id="forfaits" class="py-16 bg-brand-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.forfaits.title"></h2>
+        <p  class="mt-3 text-slate-600" data-text="copy.sections.forfaits.subtitle"></p>
+      </div>
+      <div id="plans-grid" class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+      <div id="plans-cta" class="mt-6 text-center"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.services.title"></h2>
+        <p  class="mt-3 text-slate-600" data-text="copy.sections.services.subtitle"></p>
+      </div>
+      <div id="services-cards" class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <section id="galerie" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between">
+        <div class="max-w-2xl">
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.galerie.title"></h2>
+          <p  class="mt-3 text-slate-600" data-text="copy.sections.galerie.subtitle"></p>
+        </div>
+        <div class="hidden md:flex gap-2">
+          <button id="gal-prev" class="h-10 w-10 rounded-full ring-1 ring-slate-300 hover:bg-slate-50" aria-label="Précédent">‹</button>
+          <button id="gal-next" class="h-10 w-10 rounded-full ring-1 ring-slate-300 hover:bg-slate-50" aria-label="Suivant">›</button>
+        </div>
+      </div>
+      <div class="mt-6 carousel-viewport rounded-2xl ring-1 ring-slate-200 shadow-soft">
+        <div id="gallery-track" class="carousel-track"></div>
+      </div>
+      <div id="gallery-dots" class="mt-4 flex items-center justify-center gap-2"></div>
+    </div>
+  </section>
+
+  <!-- AVANT / APRÈS -->
+  <section id="avant-apres" class="py-16 bg-brand-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.compare.title"></h2>
+        <p  class="mt-3 text-slate-600" data-text="copy.sections.compare.subtitle"></p>
+      </div>
+      <div id="compare-grid" class="mt-10 grid gap-8 md:grid-cols-2"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.faq.title"></h2>
+        <p  class="mt-2 text-slate-600" data-text="copy.sections.faq.subtitle"></p>
+      </div>
+      <div id="faq-list" class="mt-10 space-y-4"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900" data-text="copy.sections.contact.title"></h2>
+        <p  class="mt-2 text-slate-600" data-text="copy.sections.contact.subtitle"></p>
+      </div>
+      <div class="mt-10 grid lg:grid-cols-2 gap-10 items-start">
+        <!-- Formulaire (structure uniquement) -->
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="bg-white rounded-2xl ring-1 ring-brand-200 p-6 shadow-soft">
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden"><label>Ne pas remplir : <input name="bot-field" /></label></p>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <label class="grid gap-1 text-sm">
+              <span data-text="copy.form.nom.label"></span>
+              <input required name="nom" class="h-11 rounded-lg border border-slate-300 px-3 focus:border-brand-500 focus:ring-2 focus:ring-brand-200" placeholder="" data-placeholder="copy.form.nom.placeholder"/>
+            </label>
+            <label class="grid gap-1 text-sm">
+              <span data-text="copy.form.email.label"></span>
+              <input required type="email" name="email" class="h-11 rounded-lg border border-slate-300 px-3 focus:border-brand-500 focus:ring-2 focus:ring-brand-200" placeholder="" data-placeholder="copy.form.email.placeholder"/>
+            </label>
+          </div>
+
+          <label class="grid gap-1 text-sm mt-4">
+            <span data-text="copy.form.tel.label"></span>
+            <input name="telephone" class="h-11 rounded-lg border border-slate-300 px-3 focus:border-brand-500 focus:ring-2 focus:ring-brand-200" placeholder="" data-placeholder="copy.form.tel.placeholder"/>
+          </label>
+
+          <label class="grid gap-1 text-sm mt-4">
+            <span data-text="copy.form.message.label"></span>
+            <textarea required name="message" rows="5" class="rounded-lg border border-slate-300 px-3 py-2 focus:border-brand-500 focus:ring-2 focus:ring-brand-200" placeholder="" data-placeholder="copy.form.message.placeholder"></textarea>
+          </label>
+
+          <label class="flex items-start gap-2 text-sm mt-4">
+            <input required type="checkbox" class="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span data-text="copy.form.rgpd"></span>
+          </label>
+
+          <button class="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-600 text-white px-6 py-3 hover:bg-brand-700 shadow-soft" data-text="copy.form.submit"></button>
+        </form>
+
+        <aside class="space-y-6">
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-semibold" data-text="copy.contact_direct.title"></h3>
+            <ul class="mt-3 space-y-2 text-slate-700">
+              <li>📧 <a id="contact-email" class="text-brand-700 hover:underline" href="#"></a></li>
+              <li>📞 <a id="contact-phone" class="text-brand-700 hover:underline" href="#"></a></li>
+              <li>📍 <span id="zone"></span></li>
+              <li>📸 <a class="text-brand-700 hover:underline ig-link" href="#" target="_blank" rel="noopener"></a></li>
+            </ul>
+          </div>
+          <div class="rounded-2xl bg-white ring-1 ring-slate-200 p-6 shadow-soft">
+            <h3 class="text-xl font-semibold" data-text="copy.hours.title"></h3>
+            <div id="hours" class="mt-3 grid grid-cols-2 gap-x-6 text-slate-700"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="py-14 bg-gradient-to-r from-brand-600 to-brand-700 text-white">
+    <div class="max-w-4xl mx-auto text-center px-4">
+      <h2 class="text-3xl sm:text-4xl font-bold" data-text="copy.sections.cta_final.title"></h2>
+      <p  class="mt-2 text-brand-100" data-text="copy.sections.cta_final.subtitle"></p>
+      <a id="cta-final" class="mt-6 inline-flex items-center gap-2 rounded-full bg-white text-brand-700 px-6 py-3 font-semibold hover:bg-brand-50" href="#contact" data-text="copy.sections.cta_final.button"></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-10 border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="flex items-center gap-2 text-slate-900 font-semibold">
+          <img id="brand-logo-footer" src="" alt="" class="h-8 w-auto rounded-md">
+          <span class="brand-name"></span>
+        </div>
+        <p class="mt-3 text-slate-600" data-text="copy.footer.tagline"></p>
+      </div>
+      <div>
+        <h3 class="font-semibold text-slate-900" data-text="copy.footer.sections"></h3>
+        <ul class="mt-3 space-y-2 text-slate-600">
+          <li><a class="hover:text-brand-700" href="#forfaits"    data-text="copy.nav.forfaits"></a></li>
+          <li><a class="hover:text-brand-700" href="#services"    data-text="copy.nav.services"></a></li>
+          <li><a class="hover:text-brand-700" href="#galerie"     data-text="copy.nav.galerie"></a></li>
+          <li><a class="hover:text-brand-700" href="#avant-apres" data-text="copy.nav.avant_apres"></a></li>
+          <li><a class="hover:text-brand-700" href="#faq"         data-text="copy.nav.faq"></a></li>
+          <li><a class="hover:text-brand-700 ig-link" href="#" target="_blank" rel="noopener" data-text="copy.nav.instagram"></a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold text-slate-900" data-text="copy.footer.legal"></h3>
+        <ul class="mt-3 space-y-2 text-slate-600">
+          <li><a class="hover:text-brand-700" href="#" data-text="copy.footer.mentions"></a></li>
+          <li><a class="hover:text-brand-700" href="#" data-text="copy.footer.confidentialite"></a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-6 text-center text-slate-500 text-xs">
+      © <span id="year"></span> <span class="brand-name"></span> — <span data-text="copy.footer.rights"></span>
+    </p>
+
+    <!-- ====== Templates (HTML, pas dans le JS) ====== -->
+    <template id="tpl-bullet"><li>• <span data-text="."></span></li></template>
+
+    <template id="tpl-price-badge">
+      <div class="price-badge">
+        <span class="price-label" data-text="label"></span>
+        <span class="price-amount" data-text="amount"></span>
+      </div>
+    </template>
+
+    <template id="tpl-plan">
+      <article class="plan-card">
+        <h3 class="plan-title" data-text="name"></h3>
+        <ul class="plan-bullets" data-list="bullets" data-template="tpl-bullet"></ul>
+        <div class="plan-prices">
+          <div class="price-wrap" data-list="prices" data-template="tpl-price-badge"></div>
+          <p class="plan-note" data-text="note" data-show="note"></p>
+        </div>
+      </article>
+    </template>
+
+    <template id="tpl-service">
+      <article class="service-card">
+        <div class="service-icon" data-html="icon">🚗</div>
+        <h3 class="service-title" data-text="title"></h3>
+        <p class="service-text" data-text="text"></p>
+      </article>
+    </template>
+
+    <template id="tpl-gallery-slide">
+      <figure class="carousel-slide">
+        <img data-attr-src="src" data-attr-alt="alt" class="carousel-img" loading="lazy">
+        <figcaption class="carousel-caption" data-text="caption"></figcaption>
+      </figure>
+    </template>
+
+    <template id="tpl-compare">
+      <div class="compare-wrap">
+        <div class="compare">
+          <div class="before"><img data-attr-src="before" data-attr-alt="alt_before" loading="lazy"></div>
+          <div class="after"><img  data-attr-src="after"  data-attr-alt="alt_after"  loading="lazy"></div>
+          <div class="handle" aria-hidden="true"></div>
+          <input class="range" type="range" min="0" max="100" value="50" aria-label="Glisser pour comparer">
+        </div>
+        <!-- La poignée est rendue au-dessus pour ne jamais être rognée -->
+        <div class="knob" aria-hidden="true">⇆</div>
+        <div class="compare-labels">
+          <span data-text="label_before"></span>
+          <span data-text="label_after"></span>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-faq">
+      <details class="faq-item">
+        <summary class="faq-summary">
+          <h3 class="faq-question" data-text="q"></h3>
+          <span class="faq-caret">⌄</span>
+        </summary>
+        <p class="faq-answer" data-text="a"></p>
+      </details>
+    </template>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

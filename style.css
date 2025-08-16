@@ -1,0 +1,127 @@
+/* ===== Base ===== */
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { -webkit-font-smoothing: antialiased; }
+.icon-inline { width: 1rem; height: 1rem; display:inline-block; object-fit:contain; }
+
+/* ===== Séparateur losange ===== */
+.separator { background:#fff; display:grid; place-items:center; }
+.separator .diamond{
+  width:12rem; height:12rem; background:#fff; transform:rotate(45deg);
+  border-radius:.5rem; box-shadow:0 20px 60px rgba(2,132,199,.25);
+  position:relative; overflow:hidden;
+}
+.separator .diamond img{ position:absolute; inset:0; object-fit:contain; transform:rotate(-45deg); }
+
+/* ===== Plans / Services ===== */
+.plan-card{
+  display:flex; flex-direction:column; background:#fff; border-radius:1rem; padding:1.5rem;
+  box-shadow:0 10px 30px rgba(2,132,199,.08); border:1px solid rgba(15,23,42,.12);
+}
+.plan-title{ font-weight:600; color:#0f172a; font-size:1.125rem; }
+.plan-bullets{ margin-top:1rem; color:#334155; font-size:.9rem; line-height:1.6; }
+.plan-prices{ margin-top:auto; }
+.price-wrap{ margin-top:1rem; background:#f8fafc; border:1px solid #e2e8f0; padding:.75rem; border-radius:.75rem; }
+.price-badge{
+  display:flex; align-items:center; justify-content:space-between; background:#fff; border-radius:9999px; padding:.5rem 1rem;
+  border:1px solid #bfdbfe; box-shadow:0 10px 30px rgba(2,132,199,.08);
+}
+.price-label{ color:#475569; font-size:.85rem; }
+.price-amount{ color:#0f172a; font-weight:800; font-feature-settings:"tnum" 1; }
+.plan-note{ margin-top:.5rem; color:#64748b; font-size:.78rem; }
+
+/* ===== Services ===== */
+.service-card{
+  background:#fff; border:1px solid rgba(15,23,42,.12); border-radius:1rem; padding:1.5rem;
+  box-shadow:0 10px 30px rgba(2,132,199,.08); transition: box-shadow .2s ease;
+}
+.service-card:hover{ box-shadow:0 14px 40px rgba(2,132,199,.14); }
+.service-icon{ width:3rem; height:3rem; border-radius:.75rem; background:#dbeafe; color:#1d4ed8; display:grid; place-items:center; margin-bottom:1rem; }
+
+/* ===== Carousel ===== */
+.carousel-viewport{ overflow:hidden; }
+.carousel-track{ display:flex; transition:transform .45s cubic-bezier(.22,.61,.36,1); will-change:transform; }
+.carousel-slide{ min-width:100%; }
+@media (min-width:768px){ .carousel-slide{ min-width:50% } }
+.carousel-img{ width:100%; height:320px; object-fit:cover; }
+@media (min-width:768px){ .carousel-img{ height:420px } }
+.carousel-caption{ padding:.75rem 1rem; color:#475569; font-size:.9rem; }
+
+/* ===== Before / After =====
+   - Boîte stable (ratio + hauteur configurables)
+   - Images recadrées, composant ne bouge pas
+   - Poignée rendue au-dessus, jamais rognée
+*/
+.compare-wrap{
+  --cmp-ar: 16/9;         /* surchargé via style inline par app.js si besoin */
+  --cmp-h: auto;          /* hauteur fixe px si définie */
+  --reveal: 50%;          /* position du séparateur */
+  position: relative;
+  border-radius: 1rem;
+}
+
+/* zone d’image, clip des images */
+.compare{
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--cmp-ar);
+  height: var(--cmp-h);
+  border-radius: inherit;
+  overflow: hidden;       /* coupe les images aux coins arrondis */
+  background: #0b1324;   /* fond en attente */
+  touch-action: none;     /* drag confortable sur mobile */
+}
+
+.compare .before,
+.compare .after{ position:absolute; inset:0; }
+
+
+.compare img{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; display:block;
+  user-select:none; pointer-events:none;
+}
+
+.compare .after{ width:var(--reveal); overflow:hidden; }
+
+/* ligne du séparateur dans la zone image */
+.compare .handle{
+  position:absolute; top:0; bottom:0; left:var(--reveal);
+  width:2px; background:rgba(255,255,255,.95); box-shadow:0 0 0 1px rgba(15,23,42,.2);
+  transform:translateX(-1px);
+}
+
+/* poignée visible AU-DESSUS de la boîte (jamais rognée) */
+.compare-wrap .knob{
+  position:absolute; top:50%; left:var(--reveal);
+  transform:translate(-50%,-50%);
+  width:44px; height:44px; border-radius:9999px; background:#fff;
+  filter: drop-shadow(0 10px 30px rgba(2,132,199,.25)) drop-shadow(0 0 0 1px rgba(15,23,42,.08));
+  z-index: 40;            /* au dessus des bords arrondis */
+  display:grid; place-items:center; font-size:18px; line-height:1;
+  pointer-events:none;    /* l’interaction se fait sur la zone entière */
+}
+
+/* range invisible mais focusable (clavier) */
+.compare input.range{ position:absolute; inset:0; opacity:0; }
+
+/* Légendes */
+.compare-labels{
+  display:flex; font-size:.78rem; color:#475569; user-select:none;
+}
+.compare-labels > span{ flex:1; text-align:center; padding:.5rem 0; }
+.compare-labels > span:first-child{ background:#f1f5f9; border-bottom-left-radius:1rem; }
+.compare-labels > span:last-child{  background:#eff6ff; color:#2563eb; border-bottom-right-radius:1rem; }
+
+/* ===== FAQ ===== */
+.faq-item{ border:1px solid #e2e8f0; border-radius:.75rem; background:#fff; padding:1.25rem; }
+.faq-summary{ list-style:none; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.faq-question{ font-weight:600; color:#0f172a; }
+.faq-caret{ transition: transform .2s ease; color:#64748b; }
+.faq-item[open] .faq-caret{ transform: rotate(180deg); }
+.faq-answer{ margin-top:.5rem; color:#475569; }
+
+/* ===== Accessibilité ===== */
+:focus-visible{ outline:3px solid #2563eb; outline-offset:2px; }
+@media (prefers-reduced-motion: reduce){ .carousel-track{ transition:none; } }

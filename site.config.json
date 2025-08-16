@@ -1,0 +1,184 @@
+{
+  "brand": {
+    "name": "LNA CLEANAUTO",
+    "tagline": "Lavage à domicile",
+    "logo": "assets/logo-lna.jpg",
+    "city": "Lyon",
+    "zone": "Lyon & alentours",
+    "email": "lnacleanauto@gmail.com",
+    "phone_display": "06 29 70 98 35",
+    "phone_e164": "+33629709835",
+    "instagram": "https://www.instagram.com/lnacleanauto?igsh=bndsOXNzejltbG96",
+    "instagram_icon": "assets/icons/instagram.png"
+  },
+  "meta": {
+    "title": "LNA CLEANAUTO – Lavage auto à domicile",
+    "description": "Nettoyage auto intérieur/extérieur à domicile. Forfaits clairs, travail soigné, service sympa. Devis rapide.",
+    "og_image": "assets/logo-lna.jpg"
+  },
+  "copy": {
+    "nav": {
+      "forfaits": "Forfaits",
+      "services": "Services",
+      "galerie": "Galerie",
+      "avant_apres": "Avant/Après",
+      "faq": "FAQ",
+      "instagram": "Instagram",
+      "devis": "Devis gratuit"
+    },
+    "sections": {
+      "forfaits":  { "title": "Forfaits clairs, sans surprise", "subtitle": "Intérieur, Intenso, Extérieur, Canapé & Tapis." },
+      "services":  { "title": "Nos services", "subtitle": "Nous venons à domicile avec du matériel pro." },
+      "galerie":   { "title": "Galerie", "subtitle": "Un aperçu de nos prestations récentes." },
+      "compare":   { "title": "Avant / Après", "subtitle": "Glissez le bouton pour voir la différence." },
+      "faq":       { "title": "Questions fréquentes", "subtitle": "Si vous ne trouvez pas, écrivez-nous." },
+      "contact":   { "title": "On s’occupe de votre voiture ?", "subtitle": "Écrivez-nous deux lignes, on vous rappelle vite avec un devis gratuit." },
+      "cta_final": { "title": "Prêt à faire briller votre véhicule ?", "subtitle": "Un message et on s’occupe du reste.", "button": "Nous contacter", "href": "#contact" }
+    },
+    "footer": {
+      "tagline": "Lavage à domicile — simple, soigné, sympa.",
+      "sections": "Sections",
+      "legal": "Légal",
+      "mentions": "Mentions légales",
+      "confidentialite": "Confidentialité",
+      "rights": "Tous droits réservés."
+    },
+    "contact_direct": { "title": "Contact direct" },
+    "hours": { "title": "Horaires" },
+    "form": {
+      "nom":     { "label": "Nom *",      "placeholder": "Votre nom" },
+      "email":   { "label": "Email *",    "placeholder": "vous@email.fr" },
+      "tel":     { "label": "Téléphone (optionnel)", "placeholder": "06 12 34 56 78" },
+      "message": { "label": "Message *",  "placeholder": "Décrivez votre besoin…" },
+      "rgpd": "J’accepte l’utilisation de mes données pour être recontacté(e) au sujet de ma demande.",
+      "submit": "Envoyer"
+    }
+  },
+  "hero": {
+    "video": "assets/hero.mp4",
+    "image": "assets/hero.jpg",
+    "title_html": "Lavage auto à domicile<br/><span class='text-brand-600'>simple, soigné, sympa</span>",
+    "subtitle": "Intérieur, extérieur, vapeur & désinfection. Nous venons chez vous avec le sourire.",
+    "bullets": ["🧼 Produits pro & doux", "🚗 Déplacement à domicile", "⏱️ Devis en 1 minute"],
+    "cta_primary": { "label": "Nous contacter", "href": "#contact" },
+    "cta_secondary": { "label": "Voir les forfaits", "href": "#forfaits" }
+  },
+  "plans": [
+    {
+      "name": "Nettoyage intérieur",
+      "kind": "interior",
+      "bullets": [
+        "Aspiration complète du véhicule",
+        "Dépoussiérage complet du véhicule",
+        "Nettoyage de tous les plastiques",
+        "Nettoyage des vitres intérieures"
+      ],
+      "prices": [
+        { "label": "Citadine", "amount": "40€" },
+        { "label": "SUV",      "amount": "50€" }
+      ]
+    },
+    {
+      "name": "Intérieur Intenso",
+      "kind": "interior-plus",
+      "bullets": [
+        "Aspiration complète du véhicule",
+        "Dépoussiérage complet du véhicule",
+        "Nettoyage de tous les plastiques",
+        "Nettoyage des grilles de ventilation",
+        "Nettoyage & désinfection vapeur (5 sièges, tapis, moquettes)",
+        "Nettoyage des vitres intérieures"
+      ],
+      "prices": [
+        { "label": "Citadine", "amount": "70€" },
+        { "label": "SUV",      "amount": "80€" }
+      ]
+    },
+    {
+      "name": "Nettoyage extérieur",
+      "kind": "exterior",
+      "bullets": [
+        "Application d’un démoustiquant",
+        "Traitement des jantes",
+        "Application d’un shampoing",
+        "Nettoyage carrosserie (gants/pinceaux)",
+        "Nettoyage des contours de porte",
+        "Nettoyage des vitres"
+      ],
+      "prices": [
+        { "label": "Citadine", "amount": "30€" },
+        { "label": "SUV",      "amount": "30€" }
+      ]
+    },
+    {
+      "name": "Nettoyage canapé & tapis",
+      "kind": "home-textile",
+      "bullets": [],
+      "prices": [
+        { "label": "Canapé", "amount": "30€" },
+        { "label": "Tapis",  "amount": "30€" }
+      ],
+      "note": "Tarif indicatif par élément, nous consulter."
+    }
+  ],
+  "services": [
+    { "icon": "🚿", "title": "Extérieur soigné",       "text": "Jantes, vitres, contours, fini propre." },
+    { "icon": "🧽", "title": "Intérieur complet",      "text": "Aspiration, plastiques, vitres." },
+    { "icon": "🌫️", "title": "Vapeur & désinfection", "text": "Sièges, tapis, moquettes." },
+    { "icon": "🏠", "title": "Canapé & tapis",         "text": "Textiles à la maison : propre & frais." }
+  ],
+  "gallery": [
+    { "src": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop", "alt": "Carrosserie brillante", "caption": "Carrosserie + vitrages" },
+    { "src": "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=1200&auto=format&fit=crop", "alt": "Sièges vapeur", "caption": "Vapeur sièges" },
+    { "src": "assets/jantes.png",  "alt": "Jantes nettoyées",     "caption": "Jantes traitées" },
+    { "src": "assets/optique.png", "alt": "Nettoyage d'optiques", "caption": "Visibilité améliorée" }
+  ],
+  "ui": {
+    "compare": {
+      "aspect": "16:9",
+      "height_px": 420
+    }
+  },
+  "comparisons": [
+    {
+      "before": "assets/gallerie/1_avant.jpeg",
+      "after":  "assets/gallerie/1_apres.jpeg",
+      "label_before": "Avant (siège)",
+      "label_after":  "Après (siège)",
+      "invert": true
+    },
+    {
+      "before": "assets/gallerie/2_avant.jpeg",
+      "after":  "assets/gallerie/2_apres.jpeg",
+      "label_before": "Avant (siège)",
+      "label_after":  "Après (siège)",
+      "invert": true
+    },
+    {
+      "before": "assets/gallerie/5_avant.jpeg",
+      "after":  "assets/gallerie/5_apres.jpeg",
+      "label_before": "Avant (siège)",
+      "label_after":  "Après (siège)",
+      "invert": true
+    },
+    {
+      "before": "assets/gallerie/6_avant.jpeg",
+      "after":  "assets/gallerie/6_apres.jpeg",
+      "label_before": "Avant (siège)",
+      "label_after":  "Après (siège)",
+      "invert": true
+    }
+  ],
+  "faq": [
+    { "q": "Combien de temps pour un complet intérieur + extérieur ?", "a": "3–4 h selon l’état. Estimation donnée avant de commencer." },
+    { "q": "Produits employés ?", "a": "Gamme pro à impact réduit, méthodes douces, récupération d’eau quand possible." },
+    { "q": "Déplacement à domicile ?", "a": "Oui, ~30 km autour de Lyon. Atelier recommandé pour la céramique." },
+    { "q": "Faut-il prévoir de l’eau ou une prise électrique ?", "a": "Nous sommes autonomes la plupart du temps. Si un raccord est nécessaire, on vous le précise au RDV." },
+    { "q": "Que préparer avant notre passage ?", "a": "Retirez les effets personnels et libérez une place accessible. C’est tout !" },
+    { "q": "Et si la météo est mauvaise ?", "a": "En cas de pluie forte/canicule, on reprogramme gratuitement pour garantir la qualité." }
+  ],
+  "hours": [
+    ["Lundi–Vendredi", "18h–22h"],
+    ["Samedi–Dimanche", "08h–20h"]
+  ]
+}
