@@ -69,9 +69,9 @@
       "name": "NETTOYAGE INTERIEUR",
       "kind": "interior",
       "bullets": [
-        "Aspiration complète du véhicule",
+        "Aspiration complète de l’habitacle",
         "Dépoussiérage complet du véhicule",
-        "Nettoyage de tous les plastiques",
+        "Nettoyage complet des plastiques",
         "Nettoyage des vitres intérieures"
       ],
       "prices": [
@@ -83,11 +83,11 @@
       "name": "NETTOYAGE INTERIEUR INTENSE",
       "kind": "interior-plus",
       "bullets": [
-        "Aspiration complète du véhicule",
+        "Aspiration complète de l'habitacle",
         "Dépoussiérage complet du véhicule",
-        "Nettoyage de tous les plastiques",
+        "Nettoyage complet des plastiques",
         "Nettoyage des grilles de ventilation",
-        "Nettoyage & désinfection vapeur (sièges, tapis, moquettes)",
+        "Nettoyage & désinfection tissus (vapeur)",
         "Nettoyage des vitres intérieures"
       ],
       "prices": [
@@ -99,12 +99,12 @@
       "name": "NETTOYAGE EXTERIEUR",
       "kind": "exterior",
       "bullets": [
-        "Application d’un démoustiquant",
-        "Traitement des jantes",
-        "Application d’un shampoing",
-        "Nettoyage carrosserie (gants/pinceaux)",
-        "Nettoyage des contours de porte",
-        "Nettoyage des vitres"
+        "Pulvérisation d’un produit anti-insectes",
+        "Nettoyage des jantes",
+        "Lavage avec shampoing spécial carrosserie",
+        "Nettoyage à la main de la carrosserie (gants et pinceaux)",
+        "Nettoyage des rebords et contours de portières",
+        "Nettoyage extérieur des vitres"
       ],
       "prices": [
         { "label": "Citadine", "amount": "30€" },
