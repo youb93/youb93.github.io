@@ -4,11 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Meta dynamiques injectées par app.js depuis site.config.json -->
-  <title></title>
-  <meta name="description" content="" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="" />
+  <!-- ===== SEO de base (statique, overwrite possible via app.js) ===== -->
+<title>LNA Clean Auto – Nettoyage de véhicules à Lyon</title>
+<meta name="description" content="Nettoyage de véhicules à Lyon et alentours : intérieur/extérieur, detailing, shampouinage sièges, tapis et canapés. Déplacement rapide, devis gratuit." />
+<meta name="robots" content="index,follow" />
+<link rel="canonical" href="https://lnacleanauto.fr/" />
+
+
+<!-- Open Graph / Twitter -->
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="LNA Clean Auto – Nettoyage de véhicules à Lyon" />
+<meta property="og:description" content="Nettoyage de véhicules intérieur/extérieur, tapis & canapés. Intervention sur Lyon et alentours. Devis gratuit." />
+<meta property="og:url" content="https://lnacleanauto.fr/" />
+<meta property="og:image" content="https://lnacleanauto.fr/assets/logo-lna.jpg" />
+<meta property="og:site_name" content="LNA Clean Auto" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LNA Clean Auto – Nettoyage de véhicules à Lyon" />
+<meta name="twitter:description" content="Nettoyage intérieur/extérieur, tapis & canapés. Intervention sur Lyon et alentours." />
+<meta name="twitter:image" content="https://lnacleanauto.fr/logo-lna.jpg" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+
+<!-- Favicon emoji -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='82'>🫧</text></svg>'">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='82'>🫧</text></svg>'">
 
@@ -323,6 +342,14 @@
     </template>
   </footer>
 
+    <!-- Fallback si JS désactivé (utile SEO) -->
+  <noscript>
+    <div style="padding:16px;max-width:720px;margin:0 auto;color:#374151">
+      <h1>LNA Clean Auto – Nettoyage de véhicules à Lyon</h1>
+      <p>Nettoyage de véhicules intérieur/extérieur, shampouinage de tapis et canapés. Intervention rapide.</p>
+      <p>Contact : lnacleanauto@gmail.com – 07 43 57 63 10</p>
+    </div>
+  </noscript>
   <script src="app.js" defer></script>
 </body>
 </html>
